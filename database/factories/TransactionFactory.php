@@ -17,7 +17,7 @@ class TransactionFactory extends Factory
 
         return [
             'amount' => $amount,
-            'description' => $amount >= 0 ? 'Added coins' : 'Bought an item'
+            'description' => $amount >= 0 ? 'Added credits' : 'Bought an item'
         ];
     }
 }

@@ -1,6 +1,6 @@
-# laravel-internal-coin-system
+# laravel-credit-system
 
-A demo system where users can buy coins to purchase products within the platform.
+A demo system where users can buy credits to purchase products within the platform.
 
 ## Run Locally
 
