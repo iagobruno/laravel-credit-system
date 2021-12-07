@@ -39,7 +39,24 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createTestCreditCard(string $code = null)
 {
-    // ..
+    $number = match ($code) {
+        'insufficient_funds' => '4000000000009995',
+        'expired' => '4000000000000069',
+        'card_declined' => '4000000000000002',
+        'incorrect_cvc' => '4000000000000127',
+        'incorrect_number' => '4242424242424241',
+        default => '4242424242424242'
+    };
+
+    return \Stripe\PaymentMethod::create([
+        'type' => 'card',
+        'card' => [
+            'number' => $number,
+            'exp_month' => 12,
+            'exp_year' => now()->addYear()->year,
+            'cvc' => '314',
+        ],
+    ]);
 }

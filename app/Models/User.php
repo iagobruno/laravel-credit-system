@@ -19,11 +19,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'stripe_customer_id',
+        'default_payment_method_id',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'stripe_customer_id',
+        'default_payment_method_id'
     ];
 
     protected $casts = [
@@ -47,5 +51,36 @@ class User extends Authenticatable
 
             $user->increment('credit', $amount);
         });
+    }
+
+    public function createOrGetStripeCustomer()
+    {
+        if (isset($this->stripe_customer_id)) {
+            return \Stripe\Customer::retrieve($this->stripe_customer_id);
+        } else {
+            $customer = \Stripe\Customer::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                // 'phone' => $this->phone,
+                // 'metadata' => []
+            ]);
+
+            $this->update([
+                'stripe_customer_id' => $customer->id
+            ]);
+
+            return $customer;
+        }
+    }
+
+    public function attachPaymentMethod(string $payment_method_id)
+    {
+        \Stripe\PaymentMethod::retrieve($payment_method_id)->attach([
+            'customer' => $this->stripe_customer_id,
+        ]);
+
+        $this->update([
+            'default_payment_method_id' => $payment_method_id
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RechargeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::view('/recharge', 'recharge')->middleware('auth')->name('recharge');
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/recharge', RechargeController::class)->middleware('auth')->name('recharge.post');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
