@@ -29,7 +29,7 @@
 
                 <a href="{{ route('dashboard') }}" class="flex items-center p-2">
                     <img src="/coin.svg" class="w-[20px] h-[20px] mr-2">
-                    {{ Auth::user()->credit }}
+                    {{ money(Auth::user()->credit) }}
                 </a>
 
                 <x-dropdown align="right" width="48">
